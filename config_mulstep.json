@@ -1,0 +1,57 @@
+{
+	"start_day": 25,
+    "start_hour":8,
+    "start_min":36,
+    "data": {
+		"filepath": ["F:\\TFP\\data\\volData708.csv"],
+		"columns": [
+			"Day sin","Day cos","volNorm"
+		],
+		"periods": 5,
+		"sequence_length": 36,
+		"train_test_split": 0.865,
+		"normalise": true,
+        "pattern": "multi_steps"
+	},
+	"traffic_pattern": "weekday",
+	"training": {
+		"epochs": 50,
+		"batch_size": 12
+	},
+	"model": {
+		"name": "GRU",
+		"loss": "mae",
+		"optimizer": "adam",
+		"save_dir": "saved_models",
+		"layers": [
+			{
+				"type": "gru",
+				"neurons": 100,
+				"input_timesteps": 24,
+				"input_dim": 3,
+				"return_seq": true
+			},
+			{
+				"type": "dropout",
+				"rate": 0.2
+			},
+			{
+				"type": "gru",
+				"neurons": 100,
+				"return_seq": true  
+			},
+            
+			{
+				"type": "gru",
+				"neurons": 100,
+				"return_seq": false
+			},
+            
+			{
+				"type": "dense",
+				"neurons": 12,
+				"activation": "linear"
+			}
+		]
+	}
+}
